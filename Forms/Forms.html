@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- to refresh the HTML page automatically every 10 seconds -->
+    <meta http-equiv="refresh" content="10" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form action="" method="get">
+      <select name="select" id="select">
+        <option value="">options 1</option>
+        <option value="">options 2</option>
+        <option value="">options 3</option>
+      </select>
+      <div class="datalist">
+        <input
+          type="text"
+          list="data"
+          placeholder="enter or select ur choice of fruit"
+        />
+        <datalist id="data">
+          <option value="option 1" />
+          <option value="option 2" />
+          <option value="option 3" />
+        </datalist>
+      </div>
+      <div class="dataform">
+        <input
+          type="text"
+          list="dat"
+          placeholder="enter or select ur choice of fruit"
+        />
+        <datalist id="dat">
+          <select name="" id="dat">
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+          </select>
+        </datalist>
+      </div>
+      <div class="range">
+        <input
+          type="range"
+          name="range"
+          id="range"
+          list="range"
+          min="0"
+          max="100"
+          step="10"
+          value="20"
+        />
+        <output for="range"></output>
+        <datalist id="range">
+          <option value="20"></option>
+          <option value="40"></option>
+          <option value="60"></option>
+          <option value="80"></option>
+          <option value="100"></option>
+        </datalist>
+      </div>
+      <div class="colors">
+        <input type="color" name="" list="colo" value="#030303" />
+        <datalist id="colo">
+          <option value="#030303">#030303</option>
+          <option value="#23e3e3">#23e3e3</option>
+          <option value="#090909">#090909</option>
+          <option value="#a5a5a5">#a5a5a5</option>
+        </datalist>
+        <input type="color" value="#000000" list="grays" />
+        <datalist id="grays">
+          <option>#eeeeee</option>
+          <option>#cccccc</option>
+          <option>#aaaaaa</option>
+          <option>#999999</option>
+          <option>#444444</option>
+        </datalist>
+      </div>
+    </form>
+  </body>
+</html>

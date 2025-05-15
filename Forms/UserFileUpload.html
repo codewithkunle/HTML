@@ -1,0 +1,176 @@
+<!-- This example shows how to let the user 
+ upload files (such as the images selected 
+ using the previous example) to a server. 
+ Note: It's usually preferable to make HTTP requests 
+ using the Fetch API instead of XMLHttpRequest. 
+ However, in this case we want to show the user the upload progress, 
+ and this feature is still not supported by the Fetch API, so the example uses XMLHttpRequest.
+
+Work to track standardization of progress notifications using the Fetch API is 
+at https://github.com/whatwg/fetch/issues/607.
+ 
+ -->
+
+ <!-- The first step is to establish a drop zone.
+Exactly what part of your content will accept
+drops may vary depending on the
+design of your application, but making an
+element receive drop events is easy: -->
+
+<!-- <input type="file" name="" id="dropbox" value="Drag and Drop"> -->
+
+<style>
+    img {
+        height: 100px;
+        width: 100px;
+        margin-right: 30px;
+    }
+</style>
+
+<p id="dropbox" style="height: 150px; width: 150px; background-color: red;"></p>
+<output id="preview" style="width: 100px; height: 100px;"></output>
+
+<script>
+let dropbox;
+
+dropbox = document.getElementById("dropbox");
+dropbox.addEventListener("dragenter", dragenter, false);
+dropbox.addEventListener("dragover", dragover, false);
+dropbox.addEventListener("drop", drop, false);
+
+function dragenter(e) {
+  e.stopPropagation();
+  e.preventDefault();
+}
+
+function dragover(e) {
+  e.stopPropagation();
+  e.preventDefault();
+}
+
+// magic happens here
+function drop(e) {
+  e.stopPropagation();
+  e.preventDefault();
+
+  const dt = e.dataTransfer;
+  const files = dt.files;
+
+  handleFiles(files);
+}
+
+/*
+Here, we retrieve the dataTransfer field from the event,
+ pull the file list out of it, and then pass that to handleFiles(). 
+ From this point on, 
+handling the files is the same whether the user used the input element or drag and drop.
+*/
+
+
+// 
+// showing thumnails of user selected images/files
+/*
+
+Example: Showing thumbnails of user-selected images
+Let's say you're developing the next great photo-sharing 
+website and want to use HTML to display thumbnail previews 
+of images before the user actually uploads them. You can establish
+your input element or drop zone as discussed 
+previously and have them call a function such as the handleFiles() function below.
+
+*/
+function handleFiles(files) {
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+
+    if (!file.type.startsWith("image/")) {
+      continue;
+    }
+
+    const img = document.createElement("img");
+    img.classList.add("obj");
+    img.file = file;
+    preview.appendChild(img); // Assuming that "preview" is the div output where the content will be displayed.
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+// REAL CODE STARTS HERE, continueing from Thumnail Display
+function sendFiles() {
+  const imgs = document.querySelectorAll(".obj");
+
+  for (let i = 0; i < imgs.length; i++) {
+    new FileUpload(imgs[i], imgs[i].file);
+  }
+}
+function FileUpload(img, file) {
+  const reader = new FileReader();
+  this.ctrl = createThrobber(img);
+  const xhr = new XMLHttpRequest();
+  this.xhr = xhr;
+
+  const self = this;
+  this.xhr.upload.addEventListener(
+    "progress",
+    (e) => {
+      if (e.lengthComputable) {
+        const percentage = Math.round((e.loaded * 100) / e.total);
+        self.ctrl.update(percentage);
+      }
+    },
+    false,
+  );
+
+  xhr.upload.addEventListener(
+    "load",
+    (e) => {
+      self.ctrl.update(100);
+      const canvas = self.ctrl.ctx.canvas;
+      canvas.parentNode.removeChild(canvas);
+    },
+    false,
+  );
+  xhr.open(
+    "POST",
+    "https://demos.hacks.mozilla.org/paul/demos/resources/webservices/devnull.php",
+  );
+  xhr.overrideMimeType("text/plain; charset=x-user-defined-binary");
+  reader.onload = (evt) => {
+    xhr.send(evt.target.result);
+  };
+  reader.readAsBinaryString(file);
+}
+
+function createThrobber(img) {
+  const throbberWidth = 64;
+  const throbberHeight = 6;
+  const throbber = document.createElement("canvas");
+  throbber.classList.add("upload-progress");
+  throbber.setAttribute("width", throbberWidth);
+  throbber.setAttribute("height", throbberHeight);
+  img.parentNode.appendChild(throbber);
+  throbber.ctx = throbber.getContext("2d");
+  throbber.ctx.fillStyle = "orange";
+  throbber.update = (percent) => {
+    throbber.ctx.fillRect(
+      0,
+      0,
+      (throbberWidth * percent) / 100,
+      throbberHeight,
+    );
+    if (percent === 100) {
+      throbber.ctx.fillStyle = "green";
+    }
+  };
+  throbber.update(0);
+  return throbber;
+}
+
+
+
+</script>

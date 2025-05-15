@@ -1,0 +1,82 @@
+<!-- The first step is to establish a drop zone.
+Exactly what part of your content will accept
+drops may vary depending on the
+design of your application, but making an
+element receive drop events is easy: -->
+
+<!-- <input type="file" name="" id="dropbox" value="Drag and Drop"> -->
+
+<p id="dropbox" style="height: 150px; width: 150px; background-color: red;"></p>
+<output id="preview"></output>
+
+<script>
+let dropbox;
+
+dropbox = document.getElementById("dropbox");
+dropbox.addEventListener("dragenter", dragenter, false);
+dropbox.addEventListener("dragover", dragover, false);
+dropbox.addEventListener("drop", drop, false);
+
+function dragenter(e) {
+  e.stopPropagation();
+  e.preventDefault();
+}
+
+function dragover(e) {
+  e.stopPropagation();
+  e.preventDefault();
+}
+
+// magic happens here
+function drop(e) {
+  e.stopPropagation();
+  e.preventDefault();
+
+  const dt = e.dataTransfer;
+  const files = dt.files;
+
+  handleFiles(files);
+}
+
+/*
+Here, we retrieve the dataTransfer field from the event,
+ pull the file list out of it, and then pass that to handleFiles(). 
+ From this point on, 
+handling the files is the same whether the user used the input element or drag and drop.
+*/
+
+
+// 
+// showing thumnails of user selected images/files
+/*
+
+Example: Showing thumbnails of user-selected images
+Let's say you're developing the next great photo-sharing 
+website and want to use HTML to display thumbnail previews 
+of images before the user actually uploads them. You can establish
+your input element or drop zone as discussed 
+previously and have them call a function such as the handleFiles() function below.
+
+*/
+function handleFiles(files) {
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+
+    if (!file.type.startsWith("image/")) {
+      continue;
+    }
+
+    const img = document.createElement("img");
+    img.classList.add("obj");
+    img.file = file;
+    preview.appendChild(img); // Assuming that "preview" is the div output where the content will be displayed.
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
+</script>

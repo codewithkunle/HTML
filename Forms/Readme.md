@@ -11,10 +11,15 @@
 
 ## What You will Learn
 #### Use forms to get data from users
+
 #### Help users enter data in forms
+
 #### Help users avoid re-entering data in forms
+
 #### Help users enter the right data in forms
+
 #### Test your forms
+
 #### Design basics
 #### Accessibility
 #### Internationalization and localization
@@ -29,6 +34,6 @@
 #### Form attributes in depth
 #### Styling forms
 #### Styling form controls
-#### JavaScript: Find out how to use JavaScript to enhance your forms.
-#### Payment forms : Improve conversion rates by building better payment forms.
-#### Address forms : Help users fill out address forms quickly and easily.
+JavaScript: Find out how to use JavaScript to enhance your forms.
+Payment forms : Improve conversion rates by building better payment forms.
+Address forms : Help users fill out address forms quickly and easily.

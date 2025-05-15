@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- 
+    Object URLs can be used for other things than just images! They can be used to display
+     embedded PDF files or any other resources that can be displayed by the browser.
+
+
+     In Firefox, to have the PDF appear embedded in the iframe
+    (rather than proposed as a downloaded file), 
+     the preference pdfjs.disabled must be set to false.
+    -->
+
+    <iframe id="viewer"></iframe>
+
+    <script>
+      // for pdf
+      const objURLs = URL.createObjectURL(blob);
+      const iframe = document.getElementById("viewer");
+      iframe.setAttribute("src", objURLs);
+
+      //   Other File type
+      // You can manipulate files of other formats the same way. Here is how to preview uploaded video:
+
+      const video = document.getElementById("video");
+      const objURL = URL.createObjectURL(blob);
+      video.src = objURL;
+      video.play();
+
+      // Later:
+      URL.revokeObjectURL(objURL);
+
+      // Later:
+      URL.revokeObjectURL(objURL);
+    </script>
+  </body>
+</html>

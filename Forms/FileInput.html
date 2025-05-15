@@ -1,0 +1,27 @@
+<!-- Using hidden file input elements using the click() method -->
+
+<input
+  type="file"
+  id="fileElem"
+  multiple
+  accept="image/*" style="display: none;"
+   />
+<button id="fileSelect" type="button">Select some files</button>
+
+<script>
+    const fileSelect = document.getElementById("fileSelect");
+const fileElem = document.getElementById("fileElem");
+
+fileSelect.addEventListener(
+  "click",
+  (e) => {
+    if (fileElem) {
+      fileElem.click();
+    }
+  },
+  false,
+);
+
+</script>
+
+
